@@ -1,0 +1,184 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #1a1a1a;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+#canvas {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#overlay {
+  position: absolute;
+  bottom: 112px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+}
+
+#title-link {
+  text-decoration: none;
+  pointer-events: auto;
+}
+
+#title-link:hover h1 {
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.4);
+  text-underline-offset: 3px;
+}
+
+#overlay h1 {
+  color: #fff;
+  font-size: 18px;
+  font-weight: 300;
+  letter-spacing: 0.05em;
+}
+
+#overlay p {
+  color: #999;
+  font-size: 13px;
+  font-weight: 300;
+  margin-top: 4px;
+}
+
+/* --- Timeline --- */
+
+#timeline {
+  position: absolute;
+  bottom: 56px;
+  left: 40px;
+  right: 40px;
+  height: 48px;
+  transition: opacity 0.5s ease;
+}
+
+#timeline.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#timeline-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+#timeline-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.timeline-year {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -140%);
+  color: rgba(255, 255, 255, 0.25);
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.03em;
+  pointer-events: none;
+}
+
+.timeline-dot {
+  position: absolute;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.timeline-dot:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: translate(-50%, -50%) scale(1.6);
+}
+
+.timeline-dot.active {
+  background: #fff;
+  transform: translate(-50%, -50%) scale(1.5);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.4);
+}
+
+.timeline-tooltip {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  background: rgba(0, 0, 0, 0.8);
+  color: #ddd;
+  font-size: 11px;
+  font-weight: 300;
+  padding: 3px 8px;
+  border-radius: 3px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  margin-bottom: 6px;
+}
+
+.timeline-dot:hover .timeline-tooltip {
+  opacity: 1;
+}
+
+/* --- Controls --- */
+
+#controls {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 2px;
+}
+
+#controls button {
+  background: rgba(255, 255, 255, 0.08);
+  color: #888;
+  border: none;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-family: inherit;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#controls button:first-child {
+  border-radius: 3px 0 0 3px;
+}
+
+#controls button:last-child {
+  border-radius: 0 3px 3px 0;
+}
+
+#controls button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #ccc;
+}
+
+#controls button.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}

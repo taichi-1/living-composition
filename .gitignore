@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+
+# Analysis
+analysis/images/
+analysis/output/
+
+# OS
+.DS_Store
