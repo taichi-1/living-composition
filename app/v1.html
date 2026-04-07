@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Living Composition</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+    }
+
+    body {
+      background: #FAFAFA;
+      font-family: 'Barlow', -apple-system, BlinkMacSystemFont, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ---- Canvas (the painting) ---- */
+    #canvas {
+      display: block;
+      box-shadow:
+        0 1px 3px rgba(0, 0, 0, 0.04),
+        0 4px 12px rgba(0, 0, 0, 0.06),
+        0 12px 32px rgba(0, 0, 0, 0.05);
+      transition: box-shadow 0.6s ease;
+    }
+
+    /* ---- Overlay (museum wall label) ---- */
+    #overlay {
+      width: 100%;
+      max-width: 640px;
+      margin-top: 20px;
+      padding-top: 14px;
+      border-top: 1px solid #E0E0E0;
+      text-align: center;
+      transition: opacity 0.5s ease;
+    }
+
+    #title-link {
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    #title-link:hover #title {
+      color: #333;
+    }
+
+    #title {
+      font-family: 'Cormorant Garamond', 'Georgia', serif;
+      font-weight: 300;
+      font-size: 15px;
+      letter-spacing: 0.03em;
+      color: #4A4A4A;
+      line-height: 1.4;
+      transition: color 0.3s ease;
+    }
+
+    #subtitle {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      font-size: 11px;
+      color: #AAAAAA;
+      margin-top: 3px;
+      letter-spacing: 0.02em;
+    }
+
+    /* ---- Timeline — hairline ticks on a gallery rail ---- */
+    #timeline {
+      position: fixed;
+      bottom: 48px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      max-width: 600px;
+      padding: 0;
+      height: 32px;
+      transition: opacity 0.4s ease;
+    }
+
+    #timeline.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    #timeline-track {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Hide the line — only ticks remain */
+    #timeline-line {
+      opacity: 0;
+    }
+
+    /* Dots become vertical hairline ticks */
+    .timeline-dot {
+      position: absolute;
+      top: 50%;
+      width: 1px;
+      height: 10px;
+      border-radius: 0;
+      background: #D0D0D0;
+      transform: translate(-50%, -50%);
+      cursor: pointer;
+      transition: height 0.3s ease, background 0.3s ease;
+      z-index: 1;
+      border: none;
+      padding: 0;
+      /* Expand clickable area without changing visual */
+      box-shadow: -4px 0 0 transparent, 4px 0 0 transparent;
+    }
+
+    .timeline-dot::before {
+      content: '';
+      position: absolute;
+      top: -6px;
+      left: -6px;
+      right: -6px;
+      bottom: -6px;
+    }
+
+    .timeline-dot:hover {
+      height: 16px;
+      background: #888;
+    }
+
+    .timeline-dot.active {
+      height: 16px;
+      background: #555;
+    }
+
+    /* Year labels — hidden by default, appear on timeline hover */
+    .timeline-year {
+      position: absolute;
+      bottom: -2px;
+      transform: translateX(-50%);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 300;
+      font-size: 9px;
+      color: #BBB;
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    #timeline:hover .timeline-year {
+      opacity: 1;
+    }
+
+    .timeline-tooltip {
+      position: absolute;
+      bottom: calc(50% + 16px);
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 12px;
+      color: #666;
+      background: rgba(250, 250, 250, 0.95);
+      padding: 4px 10px;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .timeline-dot:hover .timeline-tooltip {
+      opacity: 1;
+    }
+
+    /* ---- Controls ---- */
+    #controls {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      gap: 28px;
+      opacity: 0.2;
+      transition: opacity 0.4s ease;
+    }
+
+    #controls:hover {
+      opacity: 0.7;
+    }
+
+    #controls button {
+      font-family: 'Barlow', sans-serif;
+      font-weight: 400;
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: #999999;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px 0;
+      position: relative;
+      transition: color 0.3s ease;
+    }
+
+    #controls button::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: #555555;
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform 0.3s ease;
+    }
+
+    #controls button:hover {
+      color: #555555;
+    }
+
+    #controls button.active {
+      color: #444444;
+      font-weight: 500;
+    }
+
+    #controls button.active::after {
+      transform: scaleX(1);
+    }
+
+    /* ---- Responsive ---- */
+    @media (max-width: 600px) {
+      #overlay {
+        max-width: 90%;
+        margin-top: 16px;
+        padding-top: 12px;
+      }
+
+      #title {
+        font-size: 14px;
+      }
+
+      #subtitle {
+        font-size: 10px;
+      }
+
+      #timeline {
+        width: 90%;
+        bottom: 50px;
+      }
+
+      #controls {
+        bottom: 14px;
+        gap: 20px;
+      }
+
+      #controls button {
+        font-size: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <canvas id="canvas"></canvas>
+
+  <div id="overlay">
+    <a id="title-link" href="#" target="_blank" rel="noopener">
+      <h1 id="title"></h1>
+      <p id="subtitle"></p>
+    </a>
+  </div>
+
+  <div id="timeline" class="hidden">
+    <div id="timeline-track">
+      <div id="timeline-line"></div>
+    </div>
+  </div>
+
+  <nav id="controls">
+    <button data-mode="generate" class="active">Generate</button>
+    <button data-mode="library">Library</button>
+  </nav>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
