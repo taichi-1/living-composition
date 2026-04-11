@@ -28,14 +28,15 @@ export function drawComposition(ctx, comp, w, h) {
   ctx.fillStyle = "#F2EDE3";
   ctx.fillRect(0, 0, w, h);
 
-  // Draw colored rectangles
+  // Draw colored rectangles (expand by 0.5px to avoid sub-pixel gaps)
+  const pad = 0.5;
   for (const rect of comp.rectangles) {
     ctx.fillStyle = rect.color;
     ctx.fillRect(
-      rect.x * w,
-      rect.y * h,
-      rect.w * w,
-      rect.h * h
+      rect.x * w - pad,
+      rect.y * h - pad,
+      rect.w * w + pad * 2,
+      rect.h * h + pad * 2
     );
   }
 
@@ -102,15 +103,16 @@ export function drawMorphState(ctx, state, w, h) {
   ctx.fillStyle = "#F2EDE3";
   ctx.fillRect(0, 0, w, h);
 
-  // Rectangles with interpolated color and opacity
+  // Rectangles with interpolated color and opacity (expand by 0.5px to avoid sub-pixel gaps)
+  const pad = 0.5;
   for (const rect of state.rectangles) {
     ctx.globalAlpha = rect.opacity ?? 1;
     ctx.fillStyle = rect.color;
     ctx.fillRect(
-      rect.x * w,
-      rect.y * h,
-      rect.w * w,
-      rect.h * h
+      rect.x * w - pad,
+      rect.y * h - pad,
+      rect.w * w + pad * 2,
+      rect.h * h + pad * 2
     );
   }
   ctx.globalAlpha = 1;

@@ -1,1 +1,727 @@
-[]
+[
+  {
+    "id": "comp_1920_composition_c",
+    "title": "Composition C",
+    "year": 1920,
+    "width": 61,
+    "height": 60.3,
+    "aspectRatio": 1.0116,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://www.moma.org/collection/works/79300",
+    "museum": "Museum of Modern Art, New York",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1920_no_vi",
+    "title": "No. VI / Composition No. II",
+    "year": 1920,
+    "width": 100.3,
+    "height": 99.7,
+    "aspectRatio": 1.006,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://www.tate.org.uk/art/artworks/mondrian-no-vi-composition-no-ii-t00915",
+    "museum": "Tate, London",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1921_large_red_plane",
+    "title": "Composition with large red plane, yellow, black, gray and blue",
+    "year": 1921,
+    "width": 59.5,
+    "height": 59.5,
+    "aspectRatio": 1.0,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://www.kunstmuseum.nl/en/collection/composition-large-red-plane-yellow-black-gray-and-blue",
+    "museum": "Kunstmuseum Den Haag",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1921_red_blue_black_yellow_gray",
+    "title": "Composition with Red, Blue, Black, Yellow, and Gray",
+    "year": 1921,
+    "width": 52.4,
+    "height": 76,
+    "aspectRatio": 0.6895,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://www.moma.org/collection/works/79002",
+    "museum": "Museum of Modern Art, New York",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1921_lozenge_yellow_black_blue_red_gray",
+    "title": "Lozenge Composition with Yellow, Black, Blue, Red, and Gray",
+    "year": 1921,
+    "width": 60,
+    "height": 60,
+    "aspectRatio": 1.0,
+    "lineWidth": 0.008,
+    "diamond": true,
+    "url": "https://www.artic.edu/artworks/109819/lozenge-composition-with-yellow-black-blue-red-and-gray",
+    "museum": "Art Institute of Chicago",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1921_met",
+    "title": "Tableau",
+    "year": 1921,
+    "width": 49.5,
+    "height": 49.5,
+    "aspectRatio": 1.0,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://www.metmuseum.org/art/collection/search/490012",
+    "museum": "Metropolitan Museum of Art, New York",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1921_tableau_i",
+    "title": "Tableau No. I",
+    "year": 1921,
+    "width": 60.5,
+    "height": 96.5,
+    "aspectRatio": 0.6269,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://www.fondationbeyeler.ch/en/pietmondrianconservationproject/tableau-no-i",
+    "museum": "Fondation Beyeler, Riehen/Basel",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1922_tableau_2",
+    "title": "Tableau 2",
+    "year": 1922,
+    "width": 53.4,
+    "height": 55.6,
+    "aspectRatio": 0.9604,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://www.guggenheim.org/artwork/3013",
+    "museum": "Solomon R. Guggenheim Museum, New York",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1925_lozenge_nga",
+    "title": "Tableau No. IV; Lozenge Composition with Red, Gray, Blue, Yellow, and Black",
+    "year": 1925,
+    "width": 100.5,
+    "height": 100.5,
+    "aspectRatio": 1.0,
+    "lineWidth": 0.008,
+    "diamond": true,
+    "url": "https://www.nga.gov/artworks/52614-tableau-no-iv-lozenge-composition-red-gray-blue-yellow-and-black",
+    "museum": "National Gallery of Art, Washington, D.C.",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1925_lozenge_three_lines_blue",
+    "title": "Tableau No. I: Lozenge with Three Lines and Blue, Gray, and Yellow",
+    "year": 1925,
+    "width": 80,
+    "height": 80,
+    "aspectRatio": 1.0,
+    "lineWidth": 0.008,
+    "diamond": true,
+    "url": "https://www.kunsthaus.ch/en/collection/piet-mondrian/",
+    "museum": "Kunsthaus Zurich",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1926_lozenge_two_lines_blue",
+    "title": "Composition with Blue",
+    "year": 1926,
+    "width": 60,
+    "height": 60,
+    "aspectRatio": 1.0,
+    "lineWidth": 0.008,
+    "diamond": true,
+    "url": "https://philamuseum.org/collection/object/53954",
+    "museum": "Philadelphia Museum of Art",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1926_lozenge_four_lines_gray",
+    "title": "Tableau I: Lozenge with Four Lines and Gray",
+    "year": 1926,
+    "width": 111.8,
+    "height": 113.7,
+    "aspectRatio": 0.9833,
+    "lineWidth": 0.008,
+    "diamond": true,
+    "url": "https://www.moma.org/collection/works/79059",
+    "museum": "Museum of Modern Art, New York",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1927_red_yellow_blue_cleveland",
+    "title": "Composition with Red, Yellow, and Blue",
+    "year": 1927,
+    "width": 49.5,
+    "height": 49.5,
+    "aspectRatio": 1.0,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://www.clevelandart.org/art/1967.215",
+    "museum": "Cleveland Museum of Art",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1929_no_ii_red_blue",
+    "title": "Composition No. II, with Red and Blue",
+    "year": 1929,
+    "width": 32.1,
+    "height": 40.3,
+    "aspectRatio": 0.7965,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://www.moma.org/collection/works/79816",
+    "museum": "Museum of Modern Art, New York",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1929_foxtrot_b",
+    "title": "Fox Trot B, with Black, Red, Blue, and Yellow",
+    "year": 1929,
+    "width": 45.4,
+    "height": 45.4,
+    "aspectRatio": 1.0,
+    "lineWidth": 0.008,
+    "diamond": true,
+    "url": "https://artgallery.yale.edu/collections/objects/43964",
+    "museum": "Yale University Art Gallery",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1930_foxtrot_a",
+    "title": "Fox Trot A",
+    "year": 1930,
+    "width": 78.3,
+    "height": 78.2,
+    "aspectRatio": 1.0013,
+    "lineWidth": 0.008,
+    "diamond": true,
+    "url": "https://artgallery.yale.edu/collections/objects/40159",
+    "museum": "Yale University Art Gallery",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1930_red_blue_yellow",
+    "title": "Composition with Red, Blue, and Yellow",
+    "year": 1930,
+    "width": 46,
+    "height": 46,
+    "aspectRatio": 1.0,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://www.kunsthaus.ch/en/collection/piet-mondrian/",
+    "museum": "Kunsthaus Zurich",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1930_lozenge_four_lines",
+    "title": "Composition No. 1: Lozenge with Four Lines",
+    "year": 1930,
+    "width": 75.2,
+    "height": 75.2,
+    "aspectRatio": 1.0,
+    "lineWidth": 0.008,
+    "diamond": true,
+    "url": "https://www.guggenheim.org/artwork/3052",
+    "museum": "Solomon R. Guggenheim Museum, New York",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1931_lozenge_two_lines",
+    "title": "Lozenge Composition with Two Lines",
+    "year": 1931,
+    "width": 80,
+    "height": 80,
+    "aspectRatio": 1.0,
+    "lineWidth": 0.008,
+    "diamond": true,
+    "url": "https://www.stedelijk.nl/en/collection/1584-piet-mondriaan-lozenge-composition-with-two-lines",
+    "museum": "Stedelijk Museum, Amsterdam",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1933_lozenge_four_yellow_lines",
+    "title": "Lozenge Composition with Yellow Lines",
+    "year": 1933,
+    "width": 79.9,
+    "height": 80.2,
+    "aspectRatio": 0.9963,
+    "lineWidth": 0.008,
+    "diamond": true,
+    "url": "https://www.kunstmuseum.nl/en/collection/lozenge-composition-with-four-yellow-lines",
+    "museum": "Kunstmuseum Den Haag",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1936_white_red_yellow",
+    "title": "Composition in White, Red, and Yellow",
+    "year": 1936,
+    "width": 80.3,
+    "height": 98.5,
+    "aspectRatio": 0.8152,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://collections.lacma.org/node/233872",
+    "museum": "Los Angeles County Museum of Art",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1937_yellow_blue_red",
+    "title": "Composition with Yellow, Blue and Red",
+    "year": 1937,
+    "width": 69.2,
+    "height": 72.7,
+    "aspectRatio": 0.9519,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://www.tate.org.uk/art/artworks/mondrian-composition-with-yellow-blue-and-red-t00648",
+    "museum": "Tate, London",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1938_lozenge_eight_lines_red",
+    "title": "Lozenge Composition with Eight Lines and Red (Picture No. III)",
+    "year": 1938,
+    "width": 100.5,
+    "height": 100.5,
+    "aspectRatio": 1.0,
+    "lineWidth": 0.008,
+    "diamond": true,
+    "url": "https://www.fondationbeyeler.ch/en/collection/piet-mondrian",
+    "museum": "Fondation Beyeler, Riehen/Basel",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1938_grey_red",
+    "title": "Composition No. 1 with Grey and Red 1938 / Composition with Red 1939",
+    "year": 1939,
+    "width": 102.3,
+    "height": 105.2,
+    "aspectRatio": 0.9724,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://www.guggenheim.org/artwork/3053",
+    "museum": "Peggy Guggenheim Collection, Venice",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1935_red_yellow_blue_denhaag",
+    "title": "Composition with Red, Yellow and Blue",
+    "year": 1935,
+    "width": 101,
+    "height": 51,
+    "aspectRatio": 1.9804,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://www.kunstmuseum.nl/en/collection/composition-with-red-yellow-and-blue",
+    "museum": "Kunstmuseum Den Haag",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1938_place_de_la_concorde",
+    "title": "Place de la Concorde",
+    "year": 1938,
+    "width": 94.7,
+    "height": 94.5,
+    "aspectRatio": 1.0021,
+    "lineWidth": 0.008,
+    "diamond": true,
+    "url": "https://collections.dma.org/artwork/5326422",
+    "museum": "Dallas Museum of Art",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1942_new_york_city_i",
+    "title": "New York City",
+    "year": 1942,
+    "width": 114.2,
+    "height": 119.3,
+    "aspectRatio": 0.9573,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://www.centrepompidou.fr/en/ressources/oeuvre/c5eaBp",
+    "museum": "Centre Pompidou, Paris",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1943_broadway_boogie_woogie",
+    "title": "Broadway Boogie Woogie",
+    "year": 1943,
+    "width": 127,
+    "height": 127,
+    "aspectRatio": 1.0,
+    "lineWidth": 0.008,
+    "diamond": false,
+    "url": "https://www.moma.org/collection/works/78682",
+    "museum": "Museum of Modern Art, New York",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  },
+  {
+    "id": "comp_1944_victory_boogie_woogie",
+    "title": "Victory Boogie Woogie",
+    "year": 1944,
+    "width": 127,
+    "height": 127,
+    "aspectRatio": 1.0,
+    "lineWidth": 0.008,
+    "diamond": true,
+    "url": "https://www.kunstmuseum.nl/en/collection/victory-boogie-woogie",
+    "museum": "Kunstmuseum Den Haag",
+    "lines": {
+      "vertical": [],
+      "horizontal": []
+    },
+    "rectangles": [
+      {
+        "x": 0,
+        "y": 0,
+        "w": 1,
+        "h": 1,
+        "color": "#F2EDE3"
+      }
+    ]
+  }
+]
