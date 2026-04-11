@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Composition Trace Editor</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="sidebar">
+  <h2>Metadata</h2>
+  <section>
+    <div class="field">
+      <label>Title</label>
+      <input type="text" id="meta-title" placeholder="Composition with Red, Blue...">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Year</label>
+        <input type="number" id="meta-year" placeholder="1930" min="1900" max="1950">
+      </div>
+      <div class="field">
+        <label>Aspect Ratio</label>
+        <input type="text" id="meta-aspect" placeholder="1.0" value="1.0">
+      </div>
+    </div>
+    <div class="field">
+      <label>Line Width</label>
+      <input type="range" id="meta-linewidth" min="0.003" max="0.02" step="0.001" value="0.008">
+      <span id="linewidth-val" style="font-size:11px;color:#888">0.008</span>
+    </div>
+  </section>
+
+  <h2>Tool</h2>
+  <section>
+    <div class="tools">
+      <button class="tool-btn active" data-tool="vline">V Line</button>
+      <button class="tool-btn" data-tool="hline">H Line</button>
+      <button class="tool-btn" data-tool="paint">Paint</button>
+      <button class="tool-btn" data-tool="move">Move</button>
+      <button class="tool-btn" data-tool="delete">Delete</button>
+    </div>
+  </section>
+
+  <h2>Colors</h2>
+  <section>
+    <div class="palette" id="palette">
+      <button class="palette-btn" data-color="#F2EDE3" style="background:#F2EDE3" title="White/Cream"></button>
+      <button class="palette-btn active" data-color="#CC2A1E" style="background:#CC2A1E" title="Red"></button>
+      <button class="palette-btn" data-color="#F5C621" style="background:#F5C621" title="Yellow"></button>
+      <button class="palette-btn" data-color="#1B3D8C" style="background:#1B3D8C" title="Blue"></button>
+      <button class="palette-btn" data-color="#1A1A1A" style="background:#1A1A1A" title="Black"></button>
+      <button class="palette-btn" data-color="#8C8C8C" style="background:#8C8C8C" title="Gray"></button>
+    </div>
+  </section>
+
+  <h2>Library</h2>
+  <ul class="comp-list" id="comp-list"></ul>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="btn-new">+ New Composition</button>
+    <button class="btn btn-secondary" id="btn-export">Export compositions.json</button>
+    <button class="btn btn-secondary" id="btn-import">Import compositions.json</button>
+    <input type="file" id="file-import" accept=".json">
+  </div>
+</div>
+
+<div class="main">
+  <div class="toolbar">
+    <button class="ref-btn" id="btn-ref">Load Reference Image</button>
+    <input type="file" id="file-ref" accept="image/*">
+    <label>Opacity <input type="range" id="ref-opacity" min="0" max="1" step="0.05" value="0.3"></label>
+    <label>Grid <input type="checkbox" id="show-grid"></label>
+  </div>
+
+  <div class="canvas-wrap" id="canvas-wrap">
+    <img id="ref-image" style="display:none">
+    <canvas id="editor-canvas"></canvas>
+  </div>
+
+  <div class="hint" id="hint"></div>
+</div>
+
+<script type="module" src="./main.js"></script>
+</body>
+</html>

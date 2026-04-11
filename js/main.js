@@ -118,6 +118,14 @@ function genTick(timestamp) {
 // --- Library mode ---
 
 function libStart() {
+  if (compositions.length === 0) {
+    titleEl.textContent = "Library Empty";
+    subtitleEl.textContent = "Add compositions via the editor";
+    titleLink.removeAttribute("href");
+    titleLink.style.pointerEvents = "none";
+    overlay.style.opacity = "1";
+    return;
+  }
   if (!library) {
     library = new LibraryMode(canvas, overlay, timeline);
     library.load(compositions);
@@ -126,7 +134,7 @@ function libStart() {
 }
 
 function libTick(timestamp) {
-  library.tick(timestamp);
+  if (library) library.tick(timestamp);
 }
 
 // --- Mode switching ---

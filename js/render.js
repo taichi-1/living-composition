@@ -14,7 +14,7 @@ export function drawComposition(ctx, comp, w, h) {
   ctx.clearRect(0, 0, w, h);
 
   // Background (cream white)
-  ctx.fillStyle = "#F5F0E8";
+  ctx.fillStyle = "#F2EDE3";
   ctx.fillRect(0, 0, w, h);
 
   // Draw colored rectangles
@@ -63,7 +63,7 @@ export function drawComposition(ctx, comp, w, h) {
 export function drawMorphState(ctx, state, w, h) {
   ctx.clearRect(0, 0, w, h);
 
-  ctx.fillStyle = "#F5F0E8";
+  ctx.fillStyle = "#F2EDE3";
   ctx.fillRect(0, 0, w, h);
 
   // Rectangles with interpolated color and opacity

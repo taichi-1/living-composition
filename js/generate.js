@@ -52,10 +52,35 @@ function computeStats(values) {
   };
 }
 
+/** Sensible fallback distributions when library is empty. */
+function defaultDistributions() {
+  return {
+    vLineCount: { mean: 4, std: 1.5, min: 2, max: 7 },
+    hLineCount: { mean: 4, std: 1.5, min: 2, max: 7 },
+    vLineCounts: [3, 4, 4, 5, 5, 6],
+    hLineCounts: [3, 3, 4, 4, 5, 6],
+    vPositions: { mean: 0.5, std: 0.25, min: 0.05, max: 0.95 },
+    hPositions: { mean: 0.5, std: 0.25, min: 0.05, max: 0.95 },
+    colorAreas: { "#F2EDE3": 0.75, "#CC2A1E": 0.08, "#F5C621": 0.06, "#1B3D8C": 0.06, "#1A1A1A": 0.03, "#8C8C8C": 0.02 },
+    coloredRectsPerPainting: { mean: 3, std: 1.5, min: 1, max: 6 },
+    coloredRectsCounts: [2, 3, 3, 4, 4, 5],
+    coloredPositions: [],
+    lineWidth: { mean: 0.008, std: 0.002, min: 0.005, max: 0.012 },
+    aspectRatio: { mean: 1.0, std: 0.15, min: 0.7, max: 1.3 },
+    fullSpanRatio: 0.65,
+    sampleSize: 0,
+  };
+}
+
 /**
  * Build distributions from an array of compositions.
+ * Returns sensible defaults if the library is empty.
  */
 export function buildDistributions(compositions) {
+  if (compositions.length === 0) {
+    return defaultDistributions();
+  }
+
   // Store raw counts for direct sampling instead of normal approximation
   const vLineCounts = compositions.map(c => c.lines.vertical.length);
   const hLineCounts = compositions.map(c => c.lines.horizontal.length);
@@ -65,8 +90,8 @@ export function buildDistributions(compositions) {
   const hPositions = compositions.flatMap(c => c.lines.horizontal.map(l => l.pos));
 
   // Color statistics
-  const colorCounts = { "#FFFFFF": 0, "#DD0100": 0, "#FAC901": 0, "#0000D6": 0, "#000000": 0 };
-  const colorAreas = { "#FFFFFF": 0, "#DD0100": 0, "#FAC901": 0, "#0000D6": 0, "#000000": 0 };
+  const colorCounts = { "#F2EDE3": 0, "#CC2A1E": 0, "#F5C621": 0, "#1B3D8C": 0, "#1A1A1A": 0 };
+  const colorAreas = { "#F2EDE3": 0, "#CC2A1E": 0, "#F5C621": 0, "#1B3D8C": 0, "#1A1A1A": 0 };
   let totalArea = 0;
   let totalColoredRects = 0;
   const coloredRectsPerPainting = [];
@@ -78,10 +103,10 @@ export function buildDistributions(compositions) {
     let coloredCount = 0;
     for (const rect of comp.rectangles) {
       const area = rect.w * rect.h;
-      const color = rect.color in colorAreas ? rect.color : "#FFFFFF";
+      const color = rect.color in colorAreas ? rect.color : "#F2EDE3";
       colorAreas[color] += area;
       totalArea += area;
-      if (color !== "#FFFFFF") {
+      if (color !== "#F2EDE3") {
         colorCounts[color]++;
         totalColoredRects++;
         coloredCount++;
@@ -133,7 +158,7 @@ export function buildDistributions(compositions) {
 
 // --- Generation ---
 
-const COLORS = ["#DD0100", "#FAC901", "#0000D6", "#000000", "#AAAAAA"];
+const COLORS = ["#CC2A1E", "#F5C621", "#1B3D8C", "#1A1A1A", "#8C8C8C"];
 
 /**
  * Generate a new composition by sampling from the given distributions.
@@ -196,7 +221,7 @@ export function generateComposition(dist, id = null) {
         y: allY[yi],
         w: allX[xi + 1] - allX[xi],
         h: allY[yi + 1] - allY[yi],
-        color: "#FFFFFF",
+        color: "#F2EDE3",
         _cx: (allX[xi] + allX[xi + 1]) / 2,
         _cy: (allY[yi] + allY[yi + 1]) / 2,
       });
