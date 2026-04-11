@@ -6,9 +6,12 @@ import { drawComposition } from '../js/render.js';
 import { rebuildRectangles, findNearestLine, findRectAt, round6 } from './grid.js';
 
 const CANVAS_SIZE = 500;
+const ENDPOINT_THRESHOLD = 0.04;
 
 let hoveredLine = null;
+let hoveredEndpoint = null; // 'from' | 'to' | null
 let movingLine = null;
+let movingEndpoint = null; // 'from' | 'to' | null (when dragging an endpoint)
 
 export function initCanvas(store) {
   const canvas = document.getElementById('editor-canvas');
@@ -19,7 +22,7 @@ export function initCanvas(store) {
 
   function resizeCanvas() {
     const comp = store._activeComp();
-    const ar = comp ? comp.aspectRatio : parseFloat(document.getElementById('meta-aspect').value) || 1;
+    const ar = comp ? comp.aspectRatio : 1;
     let w, h;
     if (ar >= 1) {
       w = CANVAS_SIZE;
@@ -73,21 +76,44 @@ export function initCanvas(store) {
 
     // Highlight hovered line
     if (hoveredLine && (store.tool === 'move' || store.tool === 'delete')) {
+      const line = hoveredLine.line;
       ctx.strokeStyle = store.tool === 'delete' ? 'rgba(196,30,58,0.6)' : 'rgba(255,255,255,0.5)';
       ctx.lineWidth = 4;
       ctx.setLineDash([6, 4]);
       ctx.beginPath();
       if (hoveredLine.dir === 'v') {
-        const x = hoveredLine.line.pos * w;
-        ctx.moveTo(x, hoveredLine.line.from * h);
-        ctx.lineTo(x, hoveredLine.line.to * h);
+        const x = line.pos * w;
+        ctx.moveTo(x, line.from * h);
+        ctx.lineTo(x, line.to * h);
       } else {
-        const y = hoveredLine.line.pos * h;
-        ctx.moveTo(hoveredLine.line.from * w, y);
-        ctx.lineTo(hoveredLine.line.to * w, y);
+        const y = line.pos * h;
+        ctx.moveTo(line.from * w, y);
+        ctx.lineTo(line.to * w, y);
       }
       ctx.stroke();
       ctx.setLineDash([]);
+
+      // Draw endpoint handles in move mode
+      if (store.tool === 'move') {
+        const r = 5;
+        ctx.fillStyle = hoveredEndpoint === 'from' ? '#C41E3A' : 'rgba(255,255,255,0.6)';
+        ctx.beginPath();
+        if (hoveredLine.dir === 'v') {
+          ctx.arc(line.pos * w, line.from * h, r, 0, Math.PI * 2);
+        } else {
+          ctx.arc(line.from * w, line.pos * h, r, 0, Math.PI * 2);
+        }
+        ctx.fill();
+
+        ctx.fillStyle = hoveredEndpoint === 'to' ? '#C41E3A' : 'rgba(255,255,255,0.6)';
+        ctx.beginPath();
+        if (hoveredLine.dir === 'v') {
+          ctx.arc(line.pos * w, line.to * h, r, 0, Math.PI * 2);
+        } else {
+          ctx.arc(line.to * w, line.pos * h, r, 0, Math.PI * 2);
+        }
+        ctx.fill();
+      }
     }
   }
 
@@ -129,8 +155,15 @@ export function initCanvas(store) {
     } else if (tool === 'move') {
       const hit = findNearestLine(comp, nx, ny, 0.03);
       if (hit) {
+        // Check if grabbing an endpoint
+        const ep = detectEndpoint(hit, nx, ny);
         movingLine = hit;
-        canvas.style.cursor = hit.dir === 'v' ? 'ew-resize' : 'ns-resize';
+        movingEndpoint = ep;
+        if (ep) {
+          canvas.style.cursor = hit.dir === 'v' ? 'ns-resize' : 'ew-resize';
+        } else {
+          canvas.style.cursor = hit.dir === 'v' ? 'ew-resize' : 'ns-resize';
+        }
       }
     } else if (tool === 'delete') {
       const hit = findNearestLine(comp, nx, ny, 0.03);
@@ -154,12 +187,26 @@ export function initCanvas(store) {
     const { nx, ny } = canvasPos(e);
 
     if (movingLine) {
-      if (movingLine.dir === 'v') {
-        movingLine.line.pos = round6(Math.max(0.01, Math.min(0.99, nx)));
-        comp.lines.vertical.sort((a, b) => a.pos - b.pos);
+      if (movingEndpoint) {
+        // Dragging a line endpoint (from or to)
+        const val = movingLine.dir === 'v' ? ny : nx;
+        movingLine.line[movingEndpoint] = round6(Math.max(0, Math.min(1, val)));
+        // Ensure from < to
+        if (movingLine.line.from > movingLine.line.to) {
+          const tmp = movingLine.line.from;
+          movingLine.line.from = movingLine.line.to;
+          movingLine.line.to = tmp;
+          movingEndpoint = movingEndpoint === 'from' ? 'to' : 'from';
+        }
       } else {
-        movingLine.line.pos = round6(Math.max(0.01, Math.min(0.99, ny)));
-        comp.lines.horizontal.sort((a, b) => a.pos - b.pos);
+        // Moving the whole line position
+        if (movingLine.dir === 'v') {
+          movingLine.line.pos = round6(Math.max(0.01, Math.min(0.99, nx)));
+          comp.lines.vertical.sort((a, b) => a.pos - b.pos);
+        } else {
+          movingLine.line.pos = round6(Math.max(0.01, Math.min(0.99, ny)));
+          comp.lines.horizontal.sort((a, b) => a.pos - b.pos);
+        }
       }
       rebuildRectangles(comp);
       redraw();
@@ -168,11 +215,19 @@ export function initCanvas(store) {
 
     if (store.tool === 'move' || store.tool === 'delete') {
       const hit = findNearestLine(comp, nx, ny, 0.03);
-      if (hit !== hoveredLine) {
+      const ep = hit && store.tool === 'move' ? detectEndpoint(hit, nx, ny) : null;
+      if (hit !== hoveredLine || ep !== hoveredEndpoint) {
         hoveredLine = hit;
-        canvas.style.cursor = hit
-          ? (store.tool === 'move' ? (hit.dir === 'v' ? 'ew-resize' : 'ns-resize') : 'pointer')
-          : 'crosshair';
+        hoveredEndpoint = ep;
+        if (!hit) {
+          canvas.style.cursor = 'crosshair';
+        } else if (store.tool === 'delete') {
+          canvas.style.cursor = 'pointer';
+        } else if (ep) {
+          canvas.style.cursor = hit.dir === 'v' ? 'ns-resize' : 'ew-resize';
+        } else {
+          canvas.style.cursor = hit.dir === 'v' ? 'ew-resize' : 'ns-resize';
+        }
         redraw();
       }
     }
@@ -181,6 +236,7 @@ export function initCanvas(store) {
   canvas.addEventListener('mouseup', () => {
     if (movingLine) {
       movingLine = null;
+      movingEndpoint = null;
       canvas.style.cursor = 'crosshair';
       store._save();
     }
@@ -212,10 +268,28 @@ export function initCanvas(store) {
 
   gridCheckbox.addEventListener('change', () => redraw());
 
+  /** Detect if cursor is near an endpoint of a line. Returns 'from', 'to', or null. */
+  function detectEndpoint(hit, nx, ny) {
+    if (!hit) return null;
+    const line = hit.line;
+    let fromDist, toDist;
+    if (hit.dir === 'v') {
+      fromDist = Math.abs(ny - line.from);
+      toDist = Math.abs(ny - line.to);
+    } else {
+      fromDist = Math.abs(nx - line.from);
+      toDist = Math.abs(nx - line.to);
+    }
+    if (fromDist < ENDPOINT_THRESHOLD && fromDist < toDist) return 'from';
+    if (toDist < ENDPOINT_THRESHOLD) return 'to';
+    return null;
+  }
+
   return {
     redraw,
     resetHover() {
       hoveredLine = null;
+      hoveredEndpoint = null;
       canvas.style.cursor = 'crosshair';
     },
   };

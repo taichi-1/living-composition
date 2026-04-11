@@ -16,15 +16,26 @@
       <label>Title</label>
       <input type="text" id="meta-title" placeholder="Composition with Red, Blue...">
     </div>
+    <div class="field">
+      <label>Year</label>
+      <input type="number" id="meta-year" placeholder="1930" min="1900" max="1950">
+    </div>
     <div class="field-row">
       <div class="field">
-        <label>Year</label>
-        <input type="number" id="meta-year" placeholder="1930" min="1900" max="1950">
+        <label>Width (cm)</label>
+        <input type="number" id="meta-width" placeholder="50" min="1" max="500" step="0.1">
       </div>
       <div class="field">
-        <label>Aspect Ratio</label>
-        <input type="text" id="meta-aspect" placeholder="1.0" value="1.0">
+        <label>Height (cm)</label>
+        <input type="number" id="meta-height" placeholder="50" min="1" max="500" step="0.1">
       </div>
+    </div>
+    <div class="field">
+      <label><input type="checkbox" id="meta-diamond"> Diamond (45° lozenge)</label>
+    </div>
+    <div class="field">
+      <label>URL</label>
+      <input type="text" id="meta-url" placeholder="https://...">
     </div>
     <div class="field">
       <label>Line Width</label>
@@ -36,11 +47,15 @@
   <h2>Tool</h2>
   <section>
     <div class="tools">
-      <button class="tool-btn active" data-tool="vline">V Line</button>
-      <button class="tool-btn" data-tool="hline">H Line</button>
-      <button class="tool-btn" data-tool="paint">Paint</button>
-      <button class="tool-btn" data-tool="move">Move</button>
-      <button class="tool-btn" data-tool="delete">Delete</button>
+      <button class="tool-btn active" data-tool="vline"><kbd>Q</kbd> V Line</button>
+      <button class="tool-btn" data-tool="hline"><kbd>W</kbd> H Line</button>
+      <button class="tool-btn" data-tool="paint"><kbd>E</kbd> Paint</button>
+      <button class="tool-btn" data-tool="move"><kbd>R</kbd> Move</button>
+      <button class="tool-btn" data-tool="delete"><kbd>D</kbd> Delete</button>
+    </div>
+    <div class="tools" style="margin-top:8px">
+      <button class="tool-btn" id="btn-undo" disabled>Undo</button>
+      <button class="tool-btn" id="btn-redo" disabled>Redo</button>
     </div>
   </section>
 

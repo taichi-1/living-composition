@@ -192,6 +192,7 @@ export class LibraryMode {
     this.canvas.height = height;
     this.canvas.style.width = cssWidth + "px";
     this.canvas.style.height = cssHeight + "px";
+    this.canvas.style.transform = "";
     drawComposition(this.ctx, comp, width, height);
   }
 
@@ -201,6 +202,7 @@ export class LibraryMode {
     this.canvas.height = height;
     this.canvas.style.width = cssWidth + "px";
     this.canvas.style.height = cssHeight + "px";
+    this.canvas.style.transform = "";
     drawMorphState(this.ctx, state, width, height);
   }
 

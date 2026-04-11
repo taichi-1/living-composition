@@ -83,6 +83,9 @@ export function redo(store) {
   store._onChange();
 }
 
+export function canUndo(store) { return store._past.length > 0; }
+export function canRedo(store) { return store._future.length > 0; }
+
 export function setTool(store, tool) {
   store.tool = tool;
   store._onChange();
@@ -98,12 +101,14 @@ export function selectComp(store, idx) {
   store._onChange();
 }
 
-export function newComposition(store, aspectRatio = 1) {
+export function newComposition(store, { width = 50, height = 50 } = {}) {
   const comp = {
     id: 'comp_' + Date.now(),
     title: '',
     year: null,
-    aspectRatio,
+    width,
+    height,
+    aspectRatio: Math.round((width / height) * 10000) / 10000,
     lineWidth: 0.008,
     lines: { vertical: [], horizontal: [] },
     rectangles: [{ x: 0, y: 0, w: 1, h: 1, color: '#F2EDE3' }],

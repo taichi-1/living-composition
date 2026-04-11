@@ -225,6 +225,7 @@ export class MorphEngine {
       lines: { vertical, horizontal },
       lineWidth: lerp(a.lineWidth, b.lineWidth, t),
       aspectRatio: lerp(a.aspectRatio, b.aspectRatio, t),
+      diamond: t < 0.5 ? a.diamond : b.diamond,
     };
   }
 

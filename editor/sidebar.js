@@ -8,7 +8,10 @@ export function initSidebar(store, canvas) {
   const listEl = document.getElementById('comp-list');
   const titleInput = document.getElementById('meta-title');
   const yearInput = document.getElementById('meta-year');
-  const aspectInput = document.getElementById('meta-aspect');
+  const widthInput = document.getElementById('meta-width');
+  const heightInput = document.getElementById('meta-height');
+  const urlInput = document.getElementById('meta-url');
+  const diamondInput = document.getElementById('meta-diamond');
   const lwInput = document.getElementById('meta-linewidth');
   const lwVal = document.getElementById('linewidth-val');
 
@@ -44,7 +47,10 @@ export function initSidebar(store, canvas) {
     const comp = store._activeComp();
     titleInput.value = comp ? comp.title : '';
     yearInput.value = comp ? (comp.year || '') : '';
-    aspectInput.value = comp ? comp.aspectRatio : '1.0';
+    widthInput.value = comp ? (comp.width || '') : '';
+    heightInput.value = comp ? (comp.height || '') : '';
+    urlInput.value = comp ? (comp.url || '') : '';
+    diamondInput.checked = comp ? !!comp.diamond : false;
     lwInput.value = comp ? comp.lineWidth : 0.008;
     lwVal.textContent = lwInput.value;
   }
@@ -60,15 +66,35 @@ export function initSidebar(store, canvas) {
     if (comp) { comp.year = parseInt(e.target.value) || null; renderList(); store._save(); }
   });
 
-  aspectInput.addEventListener('change', (e) => {
+  urlInput.addEventListener('change', (e) => {
     const comp = store._activeComp();
-    const val = parseFloat(e.target.value);
-    if (comp && val > 0.3 && val < 3) {
-      comp.aspectRatio = Math.round(val * 10000) / 10000;
+    if (comp) { comp.url = e.target.value || null; store._save(); }
+  });
+
+  diamondInput.addEventListener('change', () => {
+    const comp = store._activeComp();
+    if (comp) {
+      comp.diamond = diamondInput.checked;
       canvas.redraw();
       store._save();
     }
   });
+
+  function updateDimensions() {
+    const comp = store._activeComp();
+    if (!comp) return;
+    const w = parseFloat(widthInput.value);
+    const h = parseFloat(heightInput.value);
+    if (w > 0 && h > 0) {
+      comp.width = w;
+      comp.height = h;
+      comp.aspectRatio = Math.round((w / h) * 10000) / 10000;
+      canvas.redraw();
+      store._save();
+    }
+  }
+  widthInput.addEventListener('change', updateDimensions);
+  heightInput.addEventListener('change', updateDimensions);
 
   lwInput.addEventListener('input', () => {
     lwVal.textContent = lwInput.value;

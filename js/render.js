@@ -13,6 +13,17 @@
 export function drawComposition(ctx, comp, w, h) {
   ctx.clearRect(0, 0, w, h);
 
+  if (comp.diamond) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(w / 2, 0);
+    ctx.lineTo(w, h / 2);
+    ctx.lineTo(w / 2, h);
+    ctx.lineTo(0, h / 2);
+    ctx.closePath();
+    ctx.clip();
+  }
+
   // Background (cream white)
   ctx.fillStyle = "#F2EDE3";
   ctx.fillRect(0, 0, w, h);
@@ -51,6 +62,20 @@ export function drawComposition(ctx, comp, w, h) {
     ctx.lineTo(line.to * w, y);
     ctx.stroke();
   }
+
+  if (comp.diamond) {
+    ctx.restore();
+    // Diamond border
+    ctx.strokeStyle = "#444";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(w / 2, 0);
+    ctx.lineTo(w, h / 2);
+    ctx.lineTo(w / 2, h);
+    ctx.lineTo(0, h / 2);
+    ctx.closePath();
+    ctx.stroke();
+  }
 }
 
 /**
@@ -62,6 +87,17 @@ export function drawComposition(ctx, comp, w, h) {
  */
 export function drawMorphState(ctx, state, w, h) {
   ctx.clearRect(0, 0, w, h);
+
+  if (state.diamond) {
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(w / 2, 0);
+    ctx.lineTo(w, h / 2);
+    ctx.lineTo(w / 2, h);
+    ctx.lineTo(0, h / 2);
+    ctx.closePath();
+    ctx.clip();
+  }
 
   ctx.fillStyle = "#F2EDE3";
   ctx.fillRect(0, 0, w, h);
@@ -103,4 +139,17 @@ export function drawMorphState(ctx, state, w, h) {
     ctx.stroke();
   }
   ctx.globalAlpha = 1;
+
+  if (state.diamond) {
+    ctx.restore();
+    ctx.strokeStyle = "#444";
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(w / 2, 0);
+    ctx.lineTo(w, h / 2);
+    ctx.lineTo(w / 2, h);
+    ctx.lineTo(0, h / 2);
+    ctx.closePath();
+    ctx.stroke();
+  }
 }
