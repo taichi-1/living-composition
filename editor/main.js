@@ -26,6 +26,7 @@ const store = createStore(() => {
 // Convenience methods used by canvas/sidebar modules
 store._activeComp = () => activeComp(store);
 store._save = () => save(store);
+store._onLineSelect = (hit) => updateLineProps(hit);
 
 // ---- Initialize modules ----
 
@@ -42,6 +43,51 @@ document.querySelectorAll('.tool-btn').forEach(btn => {
     updateHint();
     canvas.redraw();
   });
+});
+
+// ---- Line properties panel ----
+
+const linePropsEl = document.getElementById('line-props');
+const linePropsEmptyEl = document.getElementById('line-props-empty');
+const lineWidthInput = document.getElementById('line-width');
+const lineWidthVal = document.getElementById('line-width-val');
+let currentLineHit = null;
+
+function updateLineProps(hit) {
+  currentLineHit = hit;
+  if (hit) {
+    linePropsEl.style.display = '';
+    linePropsEmptyEl.style.display = 'none';
+    const line = hit.line;
+    lineWidthInput.value = line.lineWidth || activeComp(store)?.lineWidth || 0.008;
+    lineWidthVal.textContent = lineWidthInput.value;
+    // Update active state in line palette
+    const lineColor = line.color || '#1A1A1A';
+    document.querySelectorAll('#line-palette .palette-btn').forEach(b => {
+      b.classList.toggle('active', b.dataset.color === lineColor);
+    });
+  } else {
+    linePropsEl.style.display = 'none';
+    linePropsEmptyEl.style.display = '';
+    currentLineHit = null;
+  }
+}
+
+document.getElementById('line-palette').addEventListener('click', (e) => {
+  const btn = e.target.closest('.palette-btn');
+  if (!btn || !currentLineHit) return;
+  currentLineHit.line.color = btn.dataset.color;
+  document.querySelectorAll('#line-palette .palette-btn').forEach(b => b.classList.toggle('active', b === btn));
+  canvas.redraw();
+  store._save();
+});
+
+lineWidthInput.addEventListener('input', () => {
+  lineWidthVal.textContent = lineWidthInput.value;
+  if (!currentLineHit) return;
+  currentLineHit.line.lineWidth = parseFloat(lineWidthInput.value);
+  canvas.redraw();
+  store._save();
 });
 
 // ---- Color palette ----
@@ -92,6 +138,7 @@ function activateTool(t) {
   setTool(store, t);
   document.querySelectorAll('.tool-btn').forEach(b => b.classList.toggle('active', b.dataset.tool === t));
   canvas.resetHover();
+  canvas.deselectLine();
   updateHint();
   canvas.redraw();
 }
@@ -125,3 +172,4 @@ sidebar.renderList();
 sidebar.loadCompToUI();
 canvas.redraw();
 updateHint();
+updateLineProps(null);

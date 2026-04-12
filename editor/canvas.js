@@ -12,6 +12,8 @@ let hoveredLine = null;
 let hoveredEndpoint = null; // 'from' | 'to' | null
 let movingLine = null;
 let movingEndpoint = null; // 'from' | 'to' | null (when dragging an endpoint)
+let selectedLine = null; // { dir, line, idx } — currently selected line for property editing
+let dragStartPos = null; // to distinguish click from drag
 
 export function initCanvas(store) {
   const canvas = document.getElementById('editor-canvas');
@@ -72,6 +74,23 @@ export function initCanvas(store) {
         ctx.lineTo(w, h * i / 10);
         ctx.stroke();
       }
+    }
+
+    // Highlight selected line
+    if (selectedLine && store.tool === 'move') {
+      const sl = selectedLine.line;
+      ctx.strokeStyle = 'rgba(0,180,255,0.7)';
+      ctx.lineWidth = 6;
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      if (selectedLine.dir === 'v') {
+        ctx.moveTo(sl.pos * w, sl.from * h);
+        ctx.lineTo(sl.pos * w, sl.to * h);
+      } else {
+        ctx.moveTo(sl.from * w, sl.pos * h);
+        ctx.lineTo(sl.to * w, sl.pos * h);
+      }
+      ctx.stroke();
     }
 
     // Highlight hovered line
@@ -159,10 +178,18 @@ export function initCanvas(store) {
         const ep = detectEndpoint(hit, nx, ny);
         movingLine = hit;
         movingEndpoint = ep;
+        dragStartPos = { nx, ny };
         if (ep) {
           canvas.style.cursor = hit.dir === 'v' ? 'ns-resize' : 'ew-resize';
         } else {
           canvas.style.cursor = hit.dir === 'v' ? 'ew-resize' : 'ns-resize';
+        }
+      } else {
+        // Clicked empty area — deselect
+        if (selectedLine) {
+          selectedLine = null;
+          store._onLineSelect?.(null);
+          redraw();
         }
       }
     } else if (tool === 'delete') {
@@ -233,8 +260,20 @@ export function initCanvas(store) {
     }
   });
 
-  canvas.addEventListener('mouseup', () => {
+  canvas.addEventListener('mouseup', (e) => {
     if (movingLine) {
+      // Detect click (no drag) to select a line
+      if (dragStartPos) {
+        const { nx, ny } = canvasPos(e);
+        const dist = Math.abs(nx - dragStartPos.nx) + Math.abs(ny - dragStartPos.ny);
+        if (dist < 0.005) {
+          // Click — select this line
+          selectedLine = movingLine;
+          store._onLineSelect?.(selectedLine);
+          redraw();
+        }
+        dragStartPos = null;
+      }
       movingLine = null;
       movingEndpoint = null;
       canvas.style.cursor = 'crosshair';
@@ -291,6 +330,11 @@ export function initCanvas(store) {
       hoveredLine = null;
       hoveredEndpoint = null;
       canvas.style.cursor = 'crosshair';
+    },
+    deselectLine() {
+      selectedLine = null;
+      store._onLineSelect?.(null);
+      redraw();
     },
   };
 }

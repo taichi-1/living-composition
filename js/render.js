@@ -41,13 +41,13 @@ export function drawComposition(ctx, comp, w, h) {
   }
 
   // Draw lines on top
-  const lw = Math.max(2, comp.lineWidth * Math.max(w, h));
-  ctx.strokeStyle = "#000000";
-  ctx.lineWidth = lw;
+  const defaultLw = Math.max(2, comp.lineWidth * Math.max(w, h));
   ctx.lineCap = "butt";
 
   // Vertical lines
   for (const line of comp.lines.vertical) {
+    ctx.strokeStyle = line.color || "#000000";
+    ctx.lineWidth = line.lineWidth ? Math.max(2, line.lineWidth * Math.max(w, h)) : defaultLw;
     const x = line.pos * w;
     ctx.beginPath();
     ctx.moveTo(x, line.from * h);
@@ -57,6 +57,8 @@ export function drawComposition(ctx, comp, w, h) {
 
   // Horizontal lines
   for (const line of comp.lines.horizontal) {
+    ctx.strokeStyle = line.color || "#000000";
+    ctx.lineWidth = line.lineWidth ? Math.max(2, line.lineWidth * Math.max(w, h)) : defaultLw;
     const y = line.pos * h;
     ctx.beginPath();
     ctx.moveTo(line.from * w, y);
@@ -118,13 +120,13 @@ export function drawMorphState(ctx, state, w, h) {
   ctx.globalAlpha = 1;
 
   // Lines
-  const lw = Math.max(2, state.lineWidth * Math.max(w, h));
-  ctx.strokeStyle = "#000000";
-  ctx.lineWidth = lw;
+  const defaultLw = Math.max(2, state.lineWidth * Math.max(w, h));
   ctx.lineCap = "butt";
 
   for (const line of state.lines.vertical) {
     ctx.globalAlpha = line.opacity ?? 1;
+    ctx.strokeStyle = line.color || "#000000";
+    ctx.lineWidth = line.lineWidth ? Math.max(2, line.lineWidth * Math.max(w, h)) : defaultLw;
     const x = line.pos * w;
     ctx.beginPath();
     ctx.moveTo(x, line.from * h);
@@ -134,6 +136,8 @@ export function drawMorphState(ctx, state, w, h) {
 
   for (const line of state.lines.horizontal) {
     ctx.globalAlpha = line.opacity ?? 1;
+    ctx.strokeStyle = line.color || "#000000";
+    ctx.lineWidth = line.lineWidth ? Math.max(2, line.lineWidth * Math.max(w, h)) : defaultLw;
     const y = line.pos * h;
     ctx.beginPath();
     ctx.moveTo(line.from * w, y);

@@ -235,12 +235,19 @@ export class MorphEngine {
     for (const [ai, bi] of match.pairs) {
       const la = linesA[ai];
       const lb = linesB[bi];
-      result.push({
+      const entry = {
         pos: lerp(la.pos, lb.pos, t),
         from: lerp(la.from, lb.from, t),
         to: lerp(la.to, lb.to, t),
         opacity: 1,
-      });
+      };
+      if (la.color || lb.color) {
+        entry.color = lerpColor(la.color || '#000000', lb.color || '#000000', t);
+      }
+      if (la.lineWidth || lb.lineWidth) {
+        entry.lineWidth = lerp(la.lineWidth || 0, lb.lineWidth || 0, t);
+      }
+      result.push(entry);
     }
 
     for (const ai of match.unmatchedA) {
