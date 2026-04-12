@@ -177,13 +177,9 @@ export class LibraryMode {
   _showTitle(comp) {
     this.titleEl.textContent = comp.title || "";
     this.subtitleEl.textContent = comp.year ? String(comp.year) : "";
-    if (comp.url && /^https?:\/\//.test(comp.url)) {
-      this.linkEl.href = comp.url;
-      this.linkEl.style.pointerEvents = "auto";
-    } else {
-      this.linkEl.removeAttribute("href");
-      this.linkEl.style.pointerEvents = "none";
-    }
+    const query = `Mondrian "${comp.title}" ${comp.year || ""}`.trim();
+    this.linkEl.href = `https://www.google.com/search?q=${encodeURIComponent(query)}`;
+    this.linkEl.style.pointerEvents = "auto";
   }
 
   _draw(comp) {

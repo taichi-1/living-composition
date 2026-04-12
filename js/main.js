@@ -32,6 +32,27 @@ const GEN_HOLD = 5000;
 const GEN_MORPH = 3000;
 let genCounter = 0;
 
+// Color hex → count category for the composition label
+const COLOR_CATEGORIES = {
+  R: ["#D63B2F", "#CC2A1E"],
+  Y: ["#EDB92D", "#F5C621"],
+  B: ["#1B4A8A", "#1B3D8C"],
+  K: ["#1A1A1A"],
+  G: ["#B8B0A8", "#8C8C8C"],
+};
+
+function genDescription(comp) {
+  const v = comp.lines.vertical.length;
+  const h = comp.lines.horizontal.length;
+  const counts = { R: 0, Y: 0, B: 0, K: 0, G: 0 };
+  for (const rect of comp.rectangles) {
+    for (const [key, hexes] of Object.entries(COLOR_CATEGORIES)) {
+      if (hexes.includes(rect.color)) { counts[key]++; break; }
+    }
+  }
+  return `${v} · ${h} · ${counts.R} · ${counts.Y} · ${counts.B} · ${counts.K} · ${counts.G}`;
+}
+
 // --- Data loading ---
 
 async function loadData() {
@@ -67,14 +88,15 @@ function updateCanvasSize(aspectRatio) {
 // --- Generate mode ---
 
 function genStart() {
-  genCurrent = generateComposition(distributions, `gen_${++genCounter}`);
+  genCurrent = generateComposition(distributions);
+  genCounter++;
   updateCanvasSize(genCurrent.aspectRatio);
   updateCanvasBorder(genCurrent.diamond);
   drawComposition(ctx, genCurrent, canvas.width, canvas.height);
   genState = "hold";
   genStateStart = performance.now();
-  titleEl.textContent = `Generated Composition #${genCounter}`;
-  subtitleEl.textContent = "";
+  titleEl.textContent = `#${genCounter}`;
+  subtitleEl.textContent = genDescription(genCurrent);
   titleLink.removeAttribute("href");
   titleLink.style.pointerEvents = "none";
   overlay.style.opacity = "1";
@@ -87,7 +109,8 @@ function genTick(timestamp) {
     case "hold":
       if (elapsed >= GEN_HOLD) {
         // Start morphing to next
-        const next = generateComposition(distributions, `gen_${++genCounter}`);
+        const next = generateComposition(distributions);
+        genCounter++;
         genMorph.start(genCurrent, next, GEN_MORPH);
         genState = "morphing";
         genStateStart = timestamp;
@@ -110,8 +133,8 @@ function genTick(timestamp) {
         drawComposition(ctx, genCurrent, canvas.width, canvas.height);
         genState = "hold";
         genStateStart = timestamp;
-        titleEl.textContent = `Generated Composition #${genCounter}`;
-        subtitleEl.textContent = "";
+        titleEl.textContent = `#${genCounter}`;
+        subtitleEl.textContent = genDescription(genCurrent);
         titleLink.removeAttribute("href");
         titleLink.style.pointerEvents = "none";
         overlay.style.opacity = "1";
