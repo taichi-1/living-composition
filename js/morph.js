@@ -220,12 +220,17 @@ export class MorphEngine {
       a.lines.horizontal, b.lines.horizontal, this.hLineMatch, t
     );
 
+    // Interpolate diamond state: 0 = rectangle, 1 = diamond
+    const aDiamond = a.diamond ? 1 : 0;
+    const bDiamond = b.diamond ? 1 : 0;
+
     return {
       rectangles,
       lines: { vertical, horizontal },
       lineWidth: lerp(a.lineWidth, b.lineWidth, t),
       aspectRatio: lerp(a.aspectRatio, b.aspectRatio, t),
       diamond: t < 0.5 ? a.diamond : b.diamond,
+      diamondT: lerp(aDiamond, bDiamond, t),
     };
   }
 
@@ -245,7 +250,11 @@ export class MorphEngine {
         entry.color = lerpColor(la.color || '#000000', lb.color || '#000000', t);
       }
       if (la.lineWidth || lb.lineWidth) {
-        entry.lineWidth = lerp(la.lineWidth || 0, lb.lineWidth || 0, t);
+        entry.lineWidth = lerp(
+          la.lineWidth || this.compA.lineWidth,
+          lb.lineWidth || this.compB.lineWidth,
+          t
+        );
       }
       result.push(entry);
     }

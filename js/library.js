@@ -193,6 +193,7 @@ export class LibraryMode {
     this.canvas.style.width = cssWidth + "px";
     this.canvas.style.height = cssHeight + "px";
     this.canvas.style.transform = "";
+    this.canvas.style.border = comp.diamond ? "none" : "1px solid #D6D0C6";
     drawComposition(this.ctx, comp, width, height);
   }
 
@@ -203,6 +204,8 @@ export class LibraryMode {
     this.canvas.style.width = cssWidth + "px";
     this.canvas.style.height = cssHeight + "px";
     this.canvas.style.transform = "";
+    const dt = state.diamondT ?? (state.diamond ? 1 : 0);
+    this.canvas.style.border = dt > 0.01 ? "none" : "1px solid #D6D0C6";
     drawMorphState(this.ctx, state, width, height);
   }
 

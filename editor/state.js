@@ -11,7 +11,7 @@ export function createStore(onChange) {
     compositions: [],
     activeIdx: -1,
     tool: 'vline',
-    paintColor: '#CC2A1E',
+    paintColor: '#D63B2F',
     _past: [],
     _future: [],
     _onChange: onChange,

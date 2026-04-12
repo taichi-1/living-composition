@@ -42,6 +42,10 @@ async function loadData() {
 
 // --- Canvas sizing ---
 
+function updateCanvasBorder(isDiamond) {
+  canvas.style.border = isDiamond ? "none" : "1px solid #D6D0C6";
+}
+
 function updateCanvasSize(aspectRatio) {
   const maxW = window.innerWidth * 0.85;
   const maxH = window.innerHeight * 0.75;
@@ -65,6 +69,7 @@ function updateCanvasSize(aspectRatio) {
 function genStart() {
   genCurrent = generateComposition(distributions, `gen_${++genCounter}`);
   updateCanvasSize(genCurrent.aspectRatio);
+  updateCanvasBorder(genCurrent.diamond);
   drawComposition(ctx, genCurrent, canvas.width, canvas.height);
   genState = "hold";
   genStateStart = performance.now();
@@ -94,13 +99,14 @@ function genTick(timestamp) {
       const state = genMorph.tick(timestamp);
       if (state) {
         updateCanvasSize(state.aspectRatio);
+        const dt = state.diamondT ?? (state.diamond ? 1 : 0);
+        updateCanvasBorder(dt > 0.01);
         drawMorphState(ctx, state, canvas.width, canvas.height);
       }
       if (!genMorph.active) {
-        genCurrent = generateComposition(distributions);
-        // The morph just finished — show the target
         genCurrent = genMorph.compB;
         updateCanvasSize(genCurrent.aspectRatio);
+        updateCanvasBorder(genCurrent.diamond);
         drawComposition(ctx, genCurrent, canvas.width, canvas.height);
         genState = "hold";
         genStateStart = timestamp;

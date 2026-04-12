@@ -82,22 +82,44 @@ export function drawComposition(ctx, comp, w, h) {
 }
 
 /**
+ * Compute the 4 vertices of a rectangle rotated by `deg` degrees around the
+ * canvas center, scaled so it stays inscribed within the canvas bounds.
+ * At 0° → full canvas rectangle. At 45° → diamond (same as existing clip).
+ */
+function rotatedFrameVertices(w, h, deg) {
+  const rad = deg * Math.PI / 180;
+  const cos = Math.cos(rad);
+  const sin = Math.sin(rad);
+  // Scale so the rotated rectangle fits within (w, h)
+  const scale = 1 / (Math.abs(cos) + Math.abs(sin));
+  const rw = w * scale / 2;
+  const rh = h * scale / 2;
+  const cx = w / 2;
+  const cy = h / 2;
+  return [[-rw, -rh], [rw, -rh], [rw, rh], [-rw, rh]].map(([x, y]) => [
+    cx + x * cos - y * sin,
+    cy + x * sin + y * cos,
+  ]);
+}
+
+/**
  * Draw an interpolated (morphing) state between two compositions.
- * @param {CanvasRenderingContext2D} ctx
- * @param {object} state - Interpolated composition state from morph engine
- * @param {number} w - Canvas pixel width
- * @param {number} h - Canvas pixel height
+ * The frame (clip + border) rotates smoothly from 0° (rectangle) to 45° (diamond).
+ * Content inside stays upright — only the outer frame tilts.
  */
 export function drawMorphState(ctx, state, w, h) {
   ctx.clearRect(0, 0, w, h);
 
-  if (state.diamond) {
+  const dt = state.diamondT ?? (state.diamond ? 1 : 0);
+  const deg = dt * 45;
+
+  // Clip to rotated frame (at 0° this is the full canvas, so skip)
+  if (deg > 0.1) {
+    const verts = rotatedFrameVertices(w, h, deg);
     ctx.save();
     ctx.beginPath();
-    ctx.moveTo(w / 2, 0);
-    ctx.lineTo(w, h / 2);
-    ctx.lineTo(w / 2, h);
-    ctx.lineTo(0, h / 2);
+    ctx.moveTo(verts[0][0], verts[0][1]);
+    for (let i = 1; i < verts.length; i++) ctx.lineTo(verts[i][0], verts[i][1]);
     ctx.closePath();
     ctx.clip();
   }
@@ -105,7 +127,7 @@ export function drawMorphState(ctx, state, w, h) {
   ctx.fillStyle = "#F2EDE3";
   ctx.fillRect(0, 0, w, h);
 
-  // Rectangles with interpolated color and opacity (expand by 0.5px to avoid sub-pixel gaps)
+  // Rectangles with interpolated color and opacity
   const pad = 0.5;
   for (const rect of state.rectangles) {
     ctx.globalAlpha = rect.opacity ?? 1;
@@ -146,15 +168,15 @@ export function drawMorphState(ctx, state, w, h) {
   }
   ctx.globalAlpha = 1;
 
-  if (state.diamond) {
+  // Draw rotated frame border
+  if (deg > 0.1) {
     ctx.restore();
+    const verts = rotatedFrameVertices(w, h, deg);
     ctx.strokeStyle = "#444";
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(w / 2, 0);
-    ctx.lineTo(w, h / 2);
-    ctx.lineTo(w / 2, h);
-    ctx.lineTo(0, h / 2);
+    ctx.moveTo(verts[0][0], verts[0][1]);
+    for (let i = 1; i < verts.length; i++) ctx.lineTo(verts[i][0], verts[i][1]);
     ctx.closePath();
     ctx.stroke();
   }

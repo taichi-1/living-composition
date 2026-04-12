@@ -61,7 +61,7 @@ function defaultDistributions() {
     hLineCounts: [3, 3, 4, 4, 5, 6],
     vPositions: { mean: 0.5, std: 0.25, min: 0.05, max: 0.95 },
     hPositions: { mean: 0.5, std: 0.25, min: 0.05, max: 0.95 },
-    colorAreas: { "#F2EDE3": 0.75, "#CC2A1E": 0.08, "#F5C621": 0.06, "#1B3D8C": 0.06, "#1A1A1A": 0.03, "#8C8C8C": 0.02 },
+    colorAreas: { "#F2EDE3": 0.73, "#CC2A1E": 0.08, "#F5C621": 0.06, "#1B3D8C": 0.06, "#1A1A1A": 0.03, "#8C8C8C": 0.04 },
     coloredRectsPerPainting: { mean: 3, std: 1.5, min: 1, max: 6 },
     coloredRectsCounts: [2, 3, 3, 4, 4, 5],
     coloredPositions: [],
@@ -90,8 +90,8 @@ export function buildDistributions(compositions) {
   const hPositions = compositions.flatMap(c => c.lines.horizontal.map(l => l.pos));
 
   // Color statistics
-  const colorCounts = { "#F2EDE3": 0, "#CC2A1E": 0, "#F5C621": 0, "#1B3D8C": 0, "#1A1A1A": 0 };
-  const colorAreas = { "#F2EDE3": 0, "#CC2A1E": 0, "#F5C621": 0, "#1B3D8C": 0, "#1A1A1A": 0 };
+  const colorCounts = { "#F2EDE3": 0, "#CC2A1E": 0, "#F5C621": 0, "#1B3D8C": 0, "#1A1A1A": 0, "#8C8C8C": 0 };
+  const colorAreas = { "#F2EDE3": 0, "#CC2A1E": 0, "#F5C621": 0, "#1B3D8C": 0, "#1A1A1A": 0, "#8C8C8C": 0 };
   let totalArea = 0;
   let totalColoredRects = 0;
   const coloredRectsPerPainting = [];
@@ -158,7 +158,16 @@ export function buildDistributions(compositions) {
 
 // --- Generation ---
 
-const COLORS = ["#CC2A1E", "#F5C621", "#1B3D8C", "#1A1A1A", "#8C8C8C"];
+const COLORS = ["#D63B2F", "#EDB92D", "#1B4A8A", "#1A1A1A", "#B8B0A8"];
+
+// Map new palette colors back to legacy hex values used in traced compositions,
+// so that statistical weights from buildDistributions() still apply.
+const REVERSE_MAP = {
+  "#D63B2F": "#CC2A1E",
+  "#EDB92D": "#F5C621",
+  "#1B4A8A": "#1B3D8C",
+  "#B8B0A8": "#8C8C8C",
+};
 
 /**
  * Generate a new composition by sampling from the given distributions.
@@ -261,7 +270,7 @@ export function generateComposition(dist, id = null) {
     // Pick color avoiding same color on adjacent rectangles
     const neighborColors = new Set();
     for (const ci of colored) {
-      if (ci !== idx && rectangles[ci].color !== "#FFFFFF") {
+      if (ci !== idx && rectangles[ci].color !== "#F2EDE3") {
         if (isAdjacent(rectangles[idx], rectangles[ci])) {
           neighborColors.add(rectangles[ci].color);
         }
@@ -269,8 +278,7 @@ export function generateComposition(dist, id = null) {
     }
     const availableColors = COLORS.filter(c => !neighborColors.has(c));
     const palette = availableColors.length > 0 ? availableColors : COLORS;
-    // Gray (#AAAAAA) is not in dataset — assign weight similar to black (~1.6% area)
-    const colorWeights = palette.map(c => dist.colorAreas[c] || 0.015);
+    const colorWeights = palette.map(c => dist.colorAreas[REVERSE_MAP[c] || c] || 0.015);
     const colorIdx = weightedChoice(colorWeights);
     rectangles[idx].color = palette[colorIdx];
   }
