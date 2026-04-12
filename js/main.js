@@ -16,6 +16,7 @@ const subtitleEl = document.getElementById("subtitle");
 const titleLink = document.getElementById("title-link");
 const timeline = document.getElementById("timeline");
 const controls = document.getElementById("controls");
+const spread = document.querySelector(".spread");
 
 // --- State ---
 let compositions = [];
@@ -34,11 +35,11 @@ let genCounter = 0;
 
 // Color hex → count category for the composition label
 const COLOR_CATEGORIES = {
-  R: ["#D63B2F", "#CC2A1E"],
-  Y: ["#EDB92D", "#F5C621"],
-  B: ["#1B4A8A", "#1B3D8C"],
+  R: ["#D63B2F"],
+  Y: ["#EDB92D"],
+  B: ["#1B4A8A"],
   K: ["#1A1A1A"],
-  G: ["#B8B0A8", "#8C8C8C"],
+  G: ["#B8B0A8"],
 };
 
 function genDescription(comp) {
@@ -68,8 +69,11 @@ function updateCanvasBorder(isDiamond) {
 }
 
 function updateCanvasSize(aspectRatio) {
-  const maxW = window.innerWidth * 0.85;
-  const maxH = window.innerHeight * 0.75;
+  const frame = document.querySelector('.canvas-frame');
+  const headerSpace = 72;
+  const bottomSpace = 100;
+  const maxW = frame.clientWidth - 48; // subtract padding-right
+  const maxH = window.innerHeight - headerSpace - bottomSpace;
   let w, h;
   if (aspectRatio >= 1) {
     w = Math.min(maxW, maxH * aspectRatio);
@@ -168,22 +172,36 @@ function libTick(timestamp) {
 
 // --- Mode switching ---
 
+let switching = false;
+
 function setMode(newMode) {
-  if (mode === newMode) return;
-  if (mode === "library" && library) library.stop();
-  mode = newMode;
+  if (mode === newMode || switching) return;
+  switching = true;
 
-  // Update button state
+  // Update button state immediately for responsiveness
   for (const btn of controls.querySelectorAll("button")) {
-    btn.classList.toggle("active", btn.dataset.mode === mode);
+    btn.classList.toggle("active", btn.dataset.mode === newMode);
   }
 
-  if (mode === "generate") {
-    timeline.classList.add("hidden");
-    genStart();
-  } else {
-    libStart();
-  }
+  // Fade out
+  spread.classList.add("mode-fade");
+
+  setTimeout(() => {
+    // Switch mode while hidden
+    if (mode === "library" && library) library.stop();
+    mode = newMode;
+
+    if (mode === "generate") {
+      timeline.classList.add("hidden");
+      genStart();
+    } else {
+      libStart();
+    }
+
+    // Fade in
+    spread.classList.remove("mode-fade");
+    switching = false;
+  }, 400);
 }
 
 // --- Animation loop ---
