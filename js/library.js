@@ -177,7 +177,7 @@ export class LibraryMode {
   _showTitle(comp) {
     this.titleEl.textContent = comp.title || "";
     this.subtitleEl.textContent = comp.year ? String(comp.year) : "";
-    if (comp.url) {
+    if (comp.url && /^https?:\/\//.test(comp.url)) {
       this.linkEl.href = comp.url;
       this.linkEl.style.pointerEvents = "auto";
     } else {

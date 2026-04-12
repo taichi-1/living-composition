@@ -20,26 +20,32 @@ export function initSidebar(store, canvas) {
     store.compositions.forEach((comp, i) => {
       const li = document.createElement('li');
       li.className = 'comp-item' + (i === store.activeIdx ? ' active' : '');
-      li.innerHTML = `
-        <span>${comp.title || 'Untitled'}</span>
-        <span style="display:flex;align-items:center;gap:8px">
-          <span class="year">${comp.year || ''}</span>
-          <button class="delete-btn" data-idx="${i}" title="Delete">\u2715</button>
-        </span>
-      `;
+
+      const titleSpan = document.createElement('span');
+      titleSpan.textContent = comp.title || 'Untitled';
+
+      const right = document.createElement('span');
+      right.style.cssText = 'display:flex;align-items:center;gap:8px';
+      const yearSpan = document.createElement('span');
+      yearSpan.className = 'year';
+      yearSpan.textContent = comp.year || '';
+      const delBtn = document.createElement('button');
+      delBtn.className = 'delete-btn';
+      delBtn.title = 'Delete';
+      delBtn.textContent = '\u2715';
+      delBtn.addEventListener('click', () => {
+        deleteComposition(store, i);
+        loadCompToUI();
+      });
+      right.append(yearSpan, delBtn);
+
+      li.append(titleSpan, right);
       li.addEventListener('click', (e) => {
         if (e.target.closest('.delete-btn')) return;
         selectComp(store, i);
         loadCompToUI();
       });
       listEl.appendChild(li);
-    });
-
-    listEl.querySelectorAll('.delete-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        deleteComposition(store, parseInt(btn.dataset.idx));
-        loadCompToUI();
-      });
     });
   }
 
