@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Composition Trace Editor</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<div class="sidebar">
+  <h2>Metadata</h2>
+  <section>
+    <div class="field">
+      <label>Title</label>
+      <input type="text" id="meta-title" placeholder="Composition with Red, Blue...">
+    </div>
+    <div class="field">
+      <label>Year</label>
+      <input type="number" id="meta-year" placeholder="1930" min="1900" max="1950">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Width (cm)</label>
+        <input type="number" id="meta-width" placeholder="50" min="1" max="500" step="0.1">
+      </div>
+      <div class="field">
+        <label>Height (cm)</label>
+        <input type="number" id="meta-height" placeholder="50" min="1" max="500" step="0.1">
+      </div>
+    </div>
+    <div class="field">
+      <label><input type="checkbox" id="meta-diamond"> Diamond (45° lozenge)</label>
+    </div>
+    <div class="field">
+      <label>URL</label>
+      <input type="text" id="meta-url" placeholder="https://...">
+    </div>
+    <div class="field">
+      <label>Line Width</label>
+      <input type="range" id="meta-linewidth" min="0.003" max="0.05" step="0.001" value="0.008">
+      <span id="linewidth-val" style="font-size:11px;color:#888">0.008</span>
+    </div>
+  </section>
+
+  <h2>Tool</h2>
+  <section>
+    <div class="tools">
+      <button class="tool-btn active" data-tool="vline"><kbd>Q</kbd> V Line</button>
+      <button class="tool-btn" data-tool="hline"><kbd>W</kbd> H Line</button>
+      <button class="tool-btn" data-tool="paint"><kbd>E</kbd> Paint</button>
+      <button class="tool-btn" data-tool="move"><kbd>R</kbd> Move</button>
+      <button class="tool-btn" data-tool="delete"><kbd>D</kbd> Delete</button>
+    </div>
+    <div class="tools" style="margin-top:8px">
+      <button class="tool-btn" id="btn-undo" disabled>Undo</button>
+      <button class="tool-btn" id="btn-redo" disabled>Redo</button>
+    </div>
+  </section>
+
+  <h2>Line Properties</h2>
+  <section id="line-props" style="display:none">
+    <div class="field">
+      <label>Line Color</label>
+      <div class="palette" id="line-palette">
+        <button class="palette-btn active" data-color="#1A1A1A" style="background:#1A1A1A" title="Black"></button>
+        <button class="palette-btn" data-color="#F2EDE3" style="background:#F2EDE3" title="White/Cream"></button>
+        <button class="palette-btn" data-color="#D63B2F" style="background:#D63B2F" title="Red"></button>
+        <button class="palette-btn" data-color="#EDB92D" style="background:#EDB92D" title="Yellow"></button>
+        <button class="palette-btn" data-color="#1B4A8A" style="background:#1B4A8A" title="Blue"></button>
+        <button class="palette-btn" data-color="#B8B0A8" style="background:#B8B0A8" title="Gray"></button>
+      </div>
+    </div>
+    <div class="field">
+      <label>Line Width (individual)</label>
+      <input type="range" id="line-width" min="0.003" max="0.05" step="0.001" value="0.008">
+      <span id="line-width-val" style="font-size:11px;color:#888">0.008</span>
+    </div>
+    <p style="font-size:11px;color:#666;margin-top:4px">Select a line with Move tool (R) to edit</p>
+  </section>
+  <section id="line-props-empty">
+    <p style="font-size:11px;color:#666">Select a line with Move tool (R) to edit</p>
+  </section>
+
+  <h2>Colors</h2>
+  <section>
+    <div class="palette" id="palette">
+      <button class="palette-btn" data-color="#F2EDE3" style="background:#F2EDE3" title="White/Cream"></button>
+      <button class="palette-btn active" data-color="#D63B2F" style="background:#D63B2F" title="Red"></button>
+      <button class="palette-btn" data-color="#EDB92D" style="background:#EDB92D" title="Yellow"></button>
+      <button class="palette-btn" data-color="#1B4A8A" style="background:#1B4A8A" title="Blue"></button>
+      <button class="palette-btn" data-color="#1A1A1A" style="background:#1A1A1A" title="Black"></button>
+      <button class="palette-btn" data-color="#B8B0A8" style="background:#B8B0A8" title="Gray"></button>
+    </div>
+  </section>
+
+  <h2>Library</h2>
+  <ul class="comp-list" id="comp-list"></ul>
+
+  <div class="actions">
+    <button class="btn btn-primary" id="btn-new">+ New Composition</button>
+    <button class="btn btn-secondary" id="btn-export">Export compositions.json</button>
+    <button class="btn btn-secondary" id="btn-import">Import compositions.json</button>
+    <input type="file" id="file-import" accept=".json">
+  </div>
+</div>
+
+<div class="main">
+  <div class="toolbar">
+    <button class="ref-btn" id="btn-ref">Load Reference Image</button>
+    <input type="file" id="file-ref" accept="image/*">
+    <label>Opacity <input type="range" id="ref-opacity" min="0" max="1" step="0.05" value="0.3"></label>
+    <label>Grid <input type="checkbox" id="show-grid"></label>
+  </div>
+
+  <div class="canvas-wrap" id="canvas-wrap">
+    <img id="ref-image" style="display:none">
+    <canvas id="editor-canvas"></canvas>
+  </div>
+
+  <div class="hint" id="hint"></div>
+</div>
+
+<script type="module" src="./main.js"></script>
+</body>
+</html>

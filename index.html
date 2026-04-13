@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Living Composition</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="running-header">Living Composition</div>
+
+  <div class="spread">
+    <div class="canvas-frame">
+      <canvas id="canvas"></canvas>
+    </div>
+
+    <div id="overlay">
+      <div class="plate-label">Plate</div>
+      <a id="title-link" href="#" target="_blank" rel="noopener">
+        <h1 id="title"></h1>
+        <div class="metadata-rule"></div>
+        <p id="subtitle"></p>
+      </a>
+    </div>
+  </div>
+
+  <div id="timeline" class="hidden">
+    <div id="timeline-track">
+      <div id="timeline-line"></div>
+    </div>
+  </div>
+
+  <nav id="controls">
+    <button data-mode="generate" class="active">Generate</button>
+    <button data-mode="library">Library</button>
+  </nav>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
